@@ -5,10 +5,18 @@ import { Feather } from '@expo/vector-icons'
 
 
 const IndexScreen = ({ navigation }) => {
-  const { state, addBlogPost, deleteBlogPost, getBlogPosts } = useContext(Context)
+  const { state, deleteBlogPost, getBlogPosts } = useContext(Context)
 
   useEffect(() => {
     getBlogPosts()
+
+    const listener = navigation.addListener('didFocus', () => {
+      getBlogPosts()
+    })
+
+    return () => {
+      listener.remove()
+    }
   }, [])
 
   return (
@@ -33,7 +41,6 @@ const IndexScreen = ({ navigation }) => {
 
   )
 }
-
 
 IndexScreen.navigationOptions = ({navigation}) => {
   return {
